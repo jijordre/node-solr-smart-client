@@ -5,7 +5,7 @@ var solrSmartClient = require('../lib/index.js');
 options = {
     // Options passed verbatim to node-zookeeper-client
     zk: {
-        connectionString: 'htz-slr02:2181,htz-slr03:2181',
+        connectionString: 'localhost:2181',
         liveNodes: '/live_nodes'
     },
     // Options passed verbatim to node-rest-client
