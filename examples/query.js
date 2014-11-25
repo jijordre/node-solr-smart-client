@@ -25,7 +25,7 @@ options = {
 };
 
 // Create Solr client, execute query and print number of documents in response.
-solrSmartClient.createClient('search-dev', options, function (err, solrClient) {
+solrSmartClient.createClient('my_solr_collection', options, function (err, solrClient) {
     if (err) {
         return console.log(err);
     }
