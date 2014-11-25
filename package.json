@@ -1,6 +1,6 @@
 {
     "name": "node-solr-smart-client",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "A node solr-client smart constructor",
     "main": "lib/index.js",
     "scripts": {
