@@ -66,26 +66,32 @@ describe('solrSmartClient', function () {
 
     beforeEach(function () {
         options = {
+            zkConnectionString: 'some_zookeeper_host:0000',
+            zkLiveNodes: '/some_live_nodes',
+            solrProtocol: 'http',
+            solrCollectionsGetEndPoint: '/admin/collections?action=LIST',
+            ssh: {},
+            // Passed verbatim to node-zookeeper-client
             zk: {
-                connectionString: 'some_zookeeper_host:0000',
-                liveNodes: '/some_live_nodes'
+                sessionTimeout: 3000,
+                spinDelay : 1000,
+                retries : 1
             },
-            solr: {
-                protocol: 'http',
-                collectionsGetEndPoint: '/admin/collections?action=LIST'
-            },
+            // Passed verbatim to node-rest-client
             rest: {
                 requestConfig: {
-                    timeout: 10000
+                    timeout: 3000
+                },
+                responseConfig: {
+                    timeout: 3000
                 }
-            },
-            ssh: {}
-        };
+            }
+        }
     });
 
     describe('#createClient', function () {
         it('should throw error with bogus ZooKeeper live nodes path', function (done) {
-            options.zk.liveNodes = '/bogus_live_nodes';
+            options.zkLiveNodes = '/bogus_live_nodes';
             solrSmartClient.createClient('collection2', options, function (err, result) {
                 should.exist(err);
                 should.not.exist(result);
@@ -94,7 +100,7 @@ describe('solrSmartClient', function () {
         });
 
         it('should throw error when no live nodes are found', function (done) {
-            options.zk.liveNodes = '/no_live_nodes';
+            options.zkLiveNodes = '/no_live_nodes';
             solrSmartClient.createClient('collection2', options, function (err, result) {
                 should.exist(err);
                 should.not.exist(result);

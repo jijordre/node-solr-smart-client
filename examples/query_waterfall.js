@@ -4,25 +4,26 @@ var solrSmartClient = require('../lib/index.js'),
 
 // Define options
 options = {
-    // Options passed verbatim to node-zookeeper-client
+    zkConnectionString: 'localhost:2181',
+    zkLiveNodes: '/live_nodes',
+    solrProtocol: 'http',
+    solrCollectionsGetEndPoint: '/admin/collections?action=LIST',
+    ssh: {},
+    // Passed verbatim to node-zookeeper-client
     zk: {
-        connectionString: 'localhost:2181',
-        liveNodes: '/live_nodes'
+        sessionTimeout: 3000,
+        spinDelay : 1000,
+        retries : 1
     },
-    // Options passed verbatim to node-rest-client
+    // Passed verbatim to node-rest-client
     rest: {
         requestConfig: {
             timeout: 3000
         },
         responseConfig: {
-            timeout: 1000
+            timeout: 3000
         }
-    },
-    solr: {
-        protocol: 'http',
-        collectionsGetEndPoint: '/admin/collections?action=LIST'
-    },
-    ssh: {}
+    }
 };
 
 // In waterfall approach

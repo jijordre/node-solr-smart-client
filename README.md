@@ -24,32 +24,33 @@ Include option `--save` to add it to your package.json file in the same go:
 Usage
 -----
 
-## Basic
+### Basic
 
     // Load dependency
-    var solrSmartClient = require('node-solr-smart-client');
+    var solrSmartClient = require('../lib/index.js');
     
     // Define options
     options = {
-        // Options passed verbatim to node-zookeeper-client
+        zkConnectionString: 'localhost:2181',
+        zkLiveNodes: '/live_nodes',
+        solrProtocol: 'http',
+        solrCollectionsGetEndPoint: '/admin/collections?action=LIST',
+        ssh: {},
+        // Passed verbatim to node-zookeeper-client
         zk: {
-            connectionString: 'localhost:2181',
-            liveNodes: '/live_nodes'
+            sessionTimeout: 3000,
+            spinDelay : 1000,
+            retries : 1
         },
-        // Options passed verbatim to node-rest-client
+        // Passed verbatim to node-rest-client
         rest: {
             requestConfig: {
                 timeout: 3000
             },
             responseConfig: {
-                timeout: 1000
+                timeout: 3000
             }
-        },
-        solr: {
-            protocol: 'http',
-            collectionsGetEndPoint: '/admin/collections?action=LIST'
-        },
-        ssh: {}
+        }
     };
     
     // Create Solr client, execute query and print number of documents in response.
@@ -65,7 +66,7 @@ Usage
         })
     });
     
-## SSH tunneling
+### SSH tunneling
 
 Assuming SSH tunnels have been set up in the following manner
 
@@ -87,7 +88,6 @@ or alternatively in SSH style as
 
     ssh: {
         tunnels: '8080:my_solr_node_1:8080,'8081:my_solr_node_2:8080'
-        }
     }
     
 As well `connectionString` in `options.zk` must have the tunneled value of `'localhost:2181,localhost:2182'`.
@@ -97,8 +97,8 @@ Test
 
     npm test
     
-Relase history
---------------
+Release history
+---------------
 
 * 0.1.0 Initial release
 
