@@ -90,7 +90,7 @@ or alternatively in SSH style as
         tunnels: '8080:my_solr_node_1:8080,'8081:my_solr_node_2:8080'
     }
     
-As well `connectionString` in `options.zk` must have the tunneled value of `'localhost:2181,localhost:2182'`.
+As well `zkConnectionString` in `options` must have the tunneled value of `'localhost:2181,localhost:2182'`.
     
 Test
 ----
