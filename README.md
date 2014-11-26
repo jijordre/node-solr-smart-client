@@ -27,7 +27,7 @@ Usage
 ### Basic
 
     // Load dependency
-    var solrSmartClient = require('../lib/index.js');
+    var solrSmartClient = require('node-solr-smart-client');
     
     // Define options
     options = {
