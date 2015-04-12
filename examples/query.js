@@ -5,8 +5,9 @@ var solrSmartClient = require('../lib/index.js');
 options = {
     zkConnectionString: 'localhost:2181',
     zkLiveNodes: '/live_nodes',
+    zkAliases: '/aliases.json',
     solrProtocol: 'http',
-    solrCollectionsGetEndPoint: '/admin/collections?action=LIST',
+    solrCollectionsGetEndPoint: '/admin/collections?action=LIST', // Supports XML and JSON writer types
     ssh: {},
     // Passed verbatim to node-zookeeper-client
     zk: {
