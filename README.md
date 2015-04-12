@@ -11,6 +11,7 @@ Features
 * retrieval of live Solr nodes from ZooKeeper cluster using [node-zookeeper-client](https://github.com/alexguan/node-zookeeper-client)
 * HTTP requests towards Solr nodes using [node-rest-client](https://github.com/aacerox/node-rest-client)
 * supports SSH tunneling
+* supports Solr collection aliases
 
 Installation
 ------------
@@ -33,8 +34,9 @@ Usage
     options = {
         zkConnectionString: 'localhost:2181',
         zkLiveNodes: '/live_nodes',
+        zkAliases: '/aliases.json',
         solrProtocol: 'http',
-        solrCollectionsGetEndPoint: '/admin/collections?action=LIST',
+        solrCollectionsGetEndPoint: '/admin/collections?action=LIST', // Supports XML and JSON writer types
         ssh: {},
         // Passed verbatim to node-zookeeper-client
         zk: {
@@ -87,7 +89,7 @@ The options' `ssh` field may be set as
 or alternatively in SSH style as
 
     ssh: {
-        tunnels: '8080:my_solr_node_1:8080,'8081:my_solr_node_2:8080'
+        tunnels: '8080:my_solr_node_1:8080,8081:my_solr_node_2:8080'
     }
     
 As well `zkConnectionString` in `options` must have the tunneled value of `'localhost:2181,localhost:2182'`.
@@ -96,9 +98,3 @@ Test
 ----
 
     npm test
-    
-Release history
----------------
-
-* 0.1.0 Initial release
-
