@@ -4,7 +4,7 @@ var should = require('should'),
     zkUtils = mockZkUtils(),
     restClientObj = {},
     restClient = {
-        Client: function () {
+        Client: function (options) {
             return restClientObj;
         }
     },
@@ -36,7 +36,7 @@ function mockZkUtils() {
     return zkUtils;
 }
 
-function mockRESTClient() {
+function mockRESTClientObj() {
     var xmlData = {
         response: {
             arr: [
@@ -110,6 +110,10 @@ function mockOptions() {
             },
             responseConfig: {
                 timeout: 3000
+            },
+            mimetypes: {
+                json: ["application/json", "application/json;charset=utf-8", "application/json; charset=utf-8", "application/json;charset=UTF-8", "application/json; charset=UTF-8"],
+                xml: ["application/xml", "application/xml;charset=utf-8", "application/xml; charset=utf-8", "application/xml;charset=UTF-8", "application/xml; charset=UTF-8"]
             }
         }
     };
@@ -119,9 +123,17 @@ describe('solrSmartClient', function () {
 
     var options;
 
+    before(function() {
+        sinon.spy(restClient, "Client");
+    });
+
     beforeEach(function () {
-        mockRESTClient();
+        mockRESTClientObj();
         options = mockOptions();
+    });
+
+    after(function() {
+       restClient.Client.restore();
     });
 
     describe('#createClient', function () {
@@ -293,7 +305,7 @@ describe('solrSmartClient', function () {
             });
         });
 
-        describe('with unsupporter writer type', function () {
+        describe('with unsupported writer type', function () {
 
             beforeEach(function() {
                 options.solrCollectionsGetEndPoint = '/admin/collections?action=LIST&wt=csv';
@@ -343,6 +355,16 @@ describe('solrSmartClient', function () {
                         solrClient.options.host.should.startWith('localhost');
                         solrClient.options.port.should.eql('4321');
                     });
+                    done();
+                });
+            });
+        });
+
+        describe('with REST client options specification', function() {
+
+            it('should instantiate REST client with options.rest', function(done) {
+                solrSmartClient.createClient('some_collection2', options, function (err, solrClient) {
+                    restClient.Client.calledWith(options.rest);
                     done();
                 });
             });
